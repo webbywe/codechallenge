@@ -1,0 +1,124 @@
+<?php
+
+/**
+ * @file
+ * Challenge
+ */
+
+use webbywe\Http;
+use webbywe\Challenge;
+
+define ('CHALLENGE_URI', 'http://www.fitpregnancy.com');
+define ('CHALLENGE_AUTH', 'yO7323LfIni%2FDFcQHnTjpAc%2FMAP60Zj%2FLKxrTfB%2BCLM%3D');
+
+/**
+ * Implements hook_init().
+ */
+function challenge_init() {
+  // Register an autoloader for the custom classes via PSR-4.
+  // Alternative option than including in challenge.info as includes.
+  spl_autoload_register(function ($class) {
+    $prefix = 'webbywe\\';
+    $base_dir = __DIR__ . '/src/';
+
+    // If not a custom class don't continue.
+    $len = strlen($prefix);
+    if (strncmp($prefix, $class, $len) !== 0) {
+      return;
+    }
+
+    // Load the class if exists.
+    $relative_class = strtoupper(substr($class, $len));
+    $file = $base_dir . str_replace('\\', '/', $relative_class) . '.inc';
+    if (file_exists($file)) {
+      require_once $file;
+    }
+  });
+}
+
+/**
+ * Implements hook_menu().
+ */
+function challenge_menu() {
+  return [
+    'challenge' => [
+      'title' => 'Code Challenge',
+      'page callback' => 'challenge_process_requests',
+      'access callback' => TRUE,
+    ],
+  ];
+}
+
+/**
+ * Implements hook_theme().
+ */
+function challenge_theme() {
+  return [
+    'challenge' => [
+      'template' => 'results',
+      'path' => drupal_get_path('module', 'challenge') . '/tpl',
+      'variables' => [
+        'results' => []
+      ],
+    ],
+  ];
+}
+
+/**
+ * Process the API challenge responses and print out a themed table.
+ *
+ * @return string
+ *   Return the process table with the challenge responses.
+ */
+function challenge_process_requests() {
+  // Storage to hold all the results;
+  $results = [];
+
+  // Function to process the challenge.
+  $do_challenge = function($uri) use (&$results) {
+    $response = Http::send($uri);
+
+    // Get the solution to the challenge.
+    $solution = Challenge::solution($response['operation'], $response['arguments']);
+
+    // Modify the next endpoint with the solution.
+    $response['next_endpoint'] = str_replace('{your solution}', $solution, $response['next_endpoint']);
+
+    // Update the running results of challenges.
+    $results[] = $response + ['solution' => $solution];
+
+    // Return the last collection of the array.
+    $return_array = array_slice($results, -1);
+    return array_pop($return_array);
+  };
+
+  // Start the API challenges at the first step.
+  $solution = $do_challenge('/code-challenge/firststep?auth=');
+
+  // Continue process the challenges until all operations are done.
+  for($i = (int) $solution['operations_remaining']; $i > 1; $i--) {
+    $solution = $do_challenge($solution['next_endpoint']);
+  };
+
+  // Theme output.
+  return theme('challenge', ['results' => $results]);
+}
+
+/**
+ * Utility function to translate the Operation key from API.
+ *
+ * @param $operation
+ *   The operation string.
+ * @return string
+ *   Return the trasnlated string so readable.
+ */
+function _challenge_translate_operation($operation) {
+  $translations = [
+    'addition' => 'Adding multiple numbers',
+    'date_addition' => 'Adding to a date',
+    'multiplication' => 'Multiplying numbers',
+    'next_fibonacci_number' => 'Find the next fibonacci number',
+  ];
+
+  return $translations[$operation];
+}
