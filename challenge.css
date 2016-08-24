@@ -1,0 +1,21 @@
+#results {
+    padding: 0;
+    list-style-type: none;
+}
+
+#results li h2 {
+    background-color: #3b3b3b;
+    color: #fff;
+    font-weight: bold;
+    margin-bottom: 0;
+    padding: .5em;
+    width: 23em;
+}
+
+#results li .content {
+    border: 1px solid #3b3b3b;
+    padding: 0 0 1em 4em;
+    margin-top: 0;
+    margin-bottom: 1em;
+    width: 30em;
+}
