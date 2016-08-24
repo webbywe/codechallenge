@@ -21,6 +21,7 @@ due to auto-loading of the classes.
     ```
     $conf['composer_manager_vendor_dir'] = '../vendor';
     $conf['composer_manager_file_dir'] = '../';
+    $conf['challenge_auth_token'] = '{your auth token}';
     ```
  1. Copy `composer.json.inc` to `composer.json` one directory above Drupal root.
  

@@ -109,7 +109,7 @@ class Http {
     }
 
     // Replace the auth in the $endpoint.
-    $endpoint = str_replace('auth=', 'auth=' . CHALLENGE_AUTH, $endpoint);
+    $endpoint = str_replace('auth=', 'auth=' . variable_get('challenge_auth_token'), $endpoint);
 
     return CHALLENGE_URI . $endpoint;
   }

@@ -9,7 +9,6 @@ use webbywe\Http;
 use webbywe\Challenge;
 
 define('CHALLENGE_URI', 'http://www.fitpregnancy.com');
-define('CHALLENGE_AUTH', 'yO7323LfIni%2FDFcQHnTjpAc%2FMAP60Zj%2FLKxrTfB%2BCLM%3D');
 
 /**
  * Implements hook_init().
@@ -71,6 +70,14 @@ function challenge_theme() {
  *   Return the process table with the challenge responses.
  */
 function challenge_process_requests() {
+  $auth = variable_get('challenge_auth_token');
+
+  // Force the setting of the authentication token.
+  if (is_null($auth)) {
+    drupal_set_message(t('The challenge_auth_token is missing. View README.md for information.'), 'error');
+    drupal_goto('<front>');
+  }
+
   // Storage to hold all the results;
   $results = [];
 
