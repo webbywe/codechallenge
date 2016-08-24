@@ -2,14 +2,14 @@
 
 /**
  * @file
- * Challenge
+ * Code Challenge.
  */
 
 use webbywe\Http;
 use webbywe\Challenge;
 
-define ('CHALLENGE_URI', 'http://www.fitpregnancy.com');
-define ('CHALLENGE_AUTH', 'yO7323LfIni%2FDFcQHnTjpAc%2FMAP60Zj%2FLKxrTfB%2BCLM%3D');
+define('CHALLENGE_URI', 'http://www.fitpregnancy.com');
+define('CHALLENGE_AUTH', 'yO7323LfIni%2FDFcQHnTjpAc%2FMAP60Zj%2FLKxrTfB%2BCLM%3D');
 
 /**
  * Implements hook_init().
@@ -96,7 +96,7 @@ function challenge_process_requests() {
   $solution = $do_challenge('/code-challenge/firststep?auth=');
 
   // Continue process the challenges until all operations are done.
-  for($i = (int) $solution['operations_remaining']; $i > 1; $i--) {
+  for ($i = (int) $solution['operations_remaining']; $i > 1; $i--) {
     $solution = $do_challenge($solution['next_endpoint']);
   };
 
@@ -107,8 +107,9 @@ function challenge_process_requests() {
 /**
  * Utility function to translate the Operation key from API.
  *
- * @param $operation
+ * @param string $operation
  *   The operation string.
+ *
  * @return string
  *   Return the trasnlated string so readable.
  */

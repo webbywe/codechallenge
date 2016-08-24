@@ -1,9 +1,11 @@
-<?php namespace webbywe;
+<?php
 
 /**
  * @file
  * Contains Http.
  */
+
+namespace webbywe;
 
 use Drush\Make\Parser\ParserYaml;
 use GuzzleHttp\Client;
@@ -11,7 +13,8 @@ use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Class Http
+ * Class Http.
+ *
  * @package webbywe
  */
 class Http {
@@ -46,14 +49,14 @@ class Http {
   /**
    * Send the request to fetch the Challenge API URI.
    *
-   * @param $endpoint
-   *   An endpoint from the API (minus the URI)
+   * @param string $endpoint
+   *   An endpoint from the API (minus the URI).
    *
    * @return array|bool
    *   A standardized array.
    */
   public static function send($endpoint) {
-    $endpoint = self::buildURI($endpoint);
+    $endpoint = self::buildUri($endpoint);
 
     $response = (new Client())->get($endpoint);
 
@@ -88,15 +91,27 @@ class Http {
     return $data;
   }
 
-  public static function buildURI($endpoint, $solution = '') {
+  /**
+   * Build a URI from the challenge endpoint.
+   *
+   * @param string $endpoint
+   *   The endpoint to process.
+   * @param string $solution
+   *   The solution if any to replace.
+   *
+   * @return string
+   *   A formatted URI string.
+   */
+  public static function buildUri($endpoint, $solution = '') {
     // Replace the solution token with solution if set.
     if (!empty($solution)) {
       $endpoint = str_replace('{your solution}', $solution, $endpoint);
     }
 
     // Replace the auth in the $endpoint.
-    $endpoint = str_replace('auth=', 'auth=' .CHALLENGE_AUTH, $endpoint);
+    $endpoint = str_replace('auth=', 'auth=' . CHALLENGE_AUTH, $endpoint);
 
     return CHALLENGE_URI . $endpoint;
   }
+
 }

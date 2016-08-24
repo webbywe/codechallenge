@@ -1,26 +1,28 @@
-<?php namespace webbywe;
+<?php
 
 /**
  * @file
  * Contains DateAdditionOperation.
  */
 
+namespace webbywe;
+
 /**
- * Class DateAdditionOperation
+ * Class DateAdditionOperation.
+ *
  * @package webbywe
  */
-class DateAdditionOperation implements OperationStrategy {
-
+class DateAdditionOperation implements OperationStrategyInterface {
   /**
    * Process the solution based on arguments.
    *
    * @param array $arguments
    *   An array of arguments.
    *
-   * @return int|mixed
-   *  The processed solution.
+   * @return int
+   *   The processed solution.
    */
-  public static function solution(Array $arguments) {
+  public static function solution(array $arguments) {
     $date_string = $arguments[0];
     $span = $arguments[1];
 
@@ -29,4 +31,5 @@ class DateAdditionOperation implements OperationStrategy {
 
     return $date->getTimestamp();
   }
+
 }

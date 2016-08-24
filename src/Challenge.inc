@@ -1,19 +1,22 @@
-<?php namespace webbywe;
+<?php
 
 /**
  * @file
  * Contains Challenge.
  */
 
+namespace webbywe;
+
 /**
- * Class Challenge
+ * Class Challenge.
+ *
  * @package webbywe
  */
 class Challenge {
   /**
    * Return a string in a class case so auto-loader can find it.
    *
-   * @param $string
+   * @param string $string
    *   The operation string (ex. next_fibonacci_number).
    *
    * @return mixed
@@ -27,16 +30,17 @@ class Challenge {
    * Get the solution based on arguments supplied for an operation key.
    *
    * @param string $operation
-   *   The operation to perform (ex. next_fibonacci_number)
+   *   The operation to perform (ex. next_fibonacci_number).
    * @param array $arguments
    *   An array of arguments.
    *
    * @return mixed
    *   Return the calculated solution
    */
-  public static function solution($operation, Array $arguments) {
+  public static function solution($operation, array $arguments) {
     $class_name = 'webbywe\\' . self::toClassCase($operation) . 'Operation';
 
     return (class_exists($class_name)) ? (new $class_name())::solution($arguments) : FALSE;
   }
+
 }

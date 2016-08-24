@@ -1,15 +1,18 @@
-<?php namespace webbywe;
+<?php
 
 /**
  * @file
  * Contains MultiplicationOperation.
  */
 
+namespace webbywe;
+
 /**
- * Class MultiplicationOperation
+ * Class MultiplicationOperation.
+ *
  * @package webbywe
  */
-class MultiplicationOperation implements OperationStrategy {
+class MultiplicationOperation implements OperationStrategyInterface {
 
   /**
    * Process the solution based on arguments.
@@ -18,9 +21,9 @@ class MultiplicationOperation implements OperationStrategy {
    *   An array of arguments.
    *
    * @return int|mixed
-   *  The processed solution.
+   *   The processed solution.
    */
-  public static function solution(Array $arguments) {
+  public static function solution(array $arguments) {
     $solution = 1;
 
     foreach ($arguments as $number) {
@@ -29,5 +32,5 @@ class MultiplicationOperation implements OperationStrategy {
 
     return $solution;
   }
-}
 
+}

@@ -1,15 +1,18 @@
-<?php namespace webbywe;
+<?php
 
 /**
  * @file
  * Contains NextFibonacciNumberOperation.
  */
 
+namespace webbywe;
+
 /**
- * Class NextFibonacciNumberOperation
+ * Class NextFibonacciNumberOperation.
+ *
  * @package webbywe
  */
-class NextFibonacciNumberOperation implements OperationStrategy {
+class NextFibonacciNumberOperation implements OperationStrategyInterface {
 
   /**
    * Process the solution based on arguments.
@@ -18,13 +21,13 @@ class NextFibonacciNumberOperation implements OperationStrategy {
    *   An array of arguments.
    *
    * @return int|mixed
-   *  The processed solution.
+   *   The processed solution.
    */
-  public static function solution(Array $arguments) {
+  public static function solution(array $arguments) {
     // Get the last two numbers for the arguments.
     $last_two = array_slice($arguments, -2, 2);
 
     return (int) $last_two[0] + (int) $last_two[1];
   }
-}
 
+}
