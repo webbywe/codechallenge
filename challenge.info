@@ -1,0 +1,9 @@
+name = Challenge
+description = Navigate through an API resolving challenges.
+package = Webbywe
+core = 7.x
+php = 5.3
+
+stylesheets[all][] = challenge.css
+
+dependecies[] = composer_manager
